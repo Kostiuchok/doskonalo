@@ -320,11 +320,12 @@
                 row.forEach(function(post, idx) {
                     var last = idx === row.length - 1 ? ' last' : '';
                     var img = imgUrl(post.cover_image);
-                    var imgTag = img ? '<figure><a href="' + img + '" class="image-link"><img src="' + img + '" alt="' + (post.title || '') + '"></a></figure>' : '';
+                    var postUrl = 'post.html?slug=' + (post.slug || '');
+                    var imgTag = img ? '<figure><a href="' + postUrl + '"><img src="' + img + '" alt="' + (post.title || '') + '"></a></figure>' : '';
                     html += '<div class="one_third' + last + '">'
                         + imgTag
-                        + '<div>'
-                        + '<h5><a class="link" href="post.html?slug=' + (post.slug || '') + '">' + (post.title || '') + '</a></h5>'
+                        + '<div style="margin-top: 16px;">'
+                        + '<h5><a class="link" href="' + postUrl + '">' + (post.title || '') + '</a></h5>'
                         + '<p>' + (post.summary || '') + '</p>'
                         + '</div></div>';
                 });
