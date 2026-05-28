@@ -3463,6 +3463,13 @@ html,body {
 }
 
 
+/* Restore mission section top spacing on desktop (offset from reduced <hr> count) */
+@media only screen and (min-width: 1025px) {
+	.mission-section {
+		padding-top: 200px;
+	}
+}
+
 /* Mobile copyright bar — hidden on desktop, shown on tablet/mobile */
 .mobile-copyright-bar {
 	display: none;
