@@ -204,109 +204,8 @@
                                     </div>
                                     
                                     
-                                    <!-- Row -->
-                                    <div class="content-row full row_padding_bottom row_padding_top row_padding_left row_padding_right light-section" data-bgcolor="#E2DED5">
-                                    
-                                        <div class="one_third">
-                                            <figure class="has-animation">
-                                                <a href="images/about/about-02.jpg" class="image-link"><img src="images/about/about-02.jpg" alt="Image Title"></a>
-                                            </figure>
-                                            <div>
-                                                <h5><a class="link" href="post01.html">Представила проєкт про силу ...</a></h5>
-                                                <p>You don't see this visual style as much in web pages because browsers, by default, display paragraphs with space underneath them as a way to show where one ends and another begins, but if you want to style a page to have that print-inspired indent style on paragraphs, you can do so with the text-indent style property. </p>
-                                            </div>
-                                        </div>
-
-                                        <div class="one_third">
-                                            <figure class="has-animation">
-                                                <a href="images/about/about-03.jpg" class="image-link"><img src="images/about/about-03.jpg" alt="Image Title"></a>
-                                            </figure>
-                                            <div>
-                                                <h5><a class="link" href="#">Делікатна тема – гіпергідроз ...</a></h5>
-                                                <p>You don't see this visual style as much in web pages because browsers, by default, display paragraphs with space underneath them as a way to show where one ends and another begins, but if you want to style a page to have that print-inspired indent style on paragraphs, you can do so with the text-indent style property. </p>
-                                            </div>
-                                        </div>
-
-                                        <div class="one_third last">
-                                            <figure class="has-animation">
-                                                <a href="images/about/about-04.jpg" class="image-link"><img src="images/about/about-04.jpg" alt="Image Title"></a>
-                                            </figure>
-                                            <div>
-                                                <h5><a class="link" href="#">Text Indentation</a></h5>
-                                                <p>You don't see this visual style as much in web pages because browsers, by default, display paragraphs with space underneath them as a way to show where one ends and another begins, but if you want to style a page to have that print-inspired indent style on paragraphs, you can do so with the text-indent style property. </p>
-                                            </div>
-                                        </div>
-                                        
-                                        
-                                    
-                                    </div> 
-                                    <!--/Row -->
-
-                                    <!-- Row -->
-                                    <div class="content-row full row_padding_top row_padding_bottom row_padding_left row_padding_right light-section" data-bgcolor="#C0CA80">
-                                    
-                                        <div class="one_third">
-                                            <figure class="has-animation">
-                                                <a href="images/about/about-01.jpg" class="image-link"><img src="images/about/about-01.jpg" alt="Image Title"></a>
-                                            </figure>
-                                        </div>
-                                        
-                                        <div class="two_third last">
-                                            <h5><a class="link" href="#">Text Indentation</a></h5>
-                                            <p class="has-indent">You don't see this visual style as much in web pages because browsers, by default, display paragraphs with space underneath them as a way to show where one ends and another begins, but if you want to style a page to have that print-inspired indent style on paragraphs, you can do so with the text-indent style property. </p>
-                                        </div>
-                                    
-                                    </div> 
-                                    <!--/Row -->
-
-
-                                    <!-- Row -->
-                                    <div class="content-row full row_padding_bottom row_padding_top row_padding_left row_padding_right light-section" data-bgcolor="#E2DED5">
-                                    
-                                        <div class="one_fourth">
-                                            <figure class="has-animation">
-                                                <a href="images/about/about-02.jpg" class="image-link"><img src="images/about/about-02.jpg" alt="Image Title"></a>
-                                            </figure>
-                                            <div>
-                                                <h5><a class="link" href="#">Представила проєкт про силу ...</a></h5>
-                                                <p>You don't see this visual style as much in web pages because browsers, by default, display paragraphs with space underneath ...</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="one_fourth">
-                                            <figure class="has-animation">
-                                                <a href="images/about/about-03.jpg" class="image-link"><img src="images/about/about-03.jpg" alt="Image Title"></a>
-                                            </figure>
-                                            <div>
-                                                <h5><a class="link" href="#">Делікатна тема – гіпергідроз ...</a></h5>
-                                                <p>You don't see this visual style as much in web pages because browsers, by default, display paragraphs with space underneath ... </p>
-                                            </div>
-                                        </div>
-
-                                        <div class="one_fourth">
-                                            <figure class="has-animation">
-                                                <a href="images/about/about-02.jpg" class="image-link"><img src="images/about/about-02.jpg" alt="Image Title"></a>
-                                            </figure>
-                                            <div>
-                                                <h5><a class="link" href="#">Представила проєкт про силу ...</a></h5>
-                                                <p>You don't see this visual style as much in web pages because browsers, by default, display paragraphs with space underneath ... </p>
-                                            </div>
-                                        </div>
-
-                                        <div class="one_fourth last">
-                                            <figure class="has-animation">
-                                                <a href="images/about/about-04.jpg" class="image-link"><img src="images/about/about-04.jpg" alt="Image Title"></a>
-                                            </figure>
-                                            <div>
-                                                <h5><a class="link" href="#">Text Indentation</a></h5>
-                                                <p>You don't see this visual style as much in web pages because browsers, by default, display paragraphs with space underneath ... </p>
-                                            </div>
-                                        </div>
-                                        
-                                        
-                                    
-                                    </div> 
-                                    <!--/Row -->
+                                    <!-- Blog posts loaded from Directus -->
+                                    <div id="blog-posts-container"></div>
                                                                 
                                 </div>                                                           
                             </div>    
@@ -402,6 +301,44 @@
     <script src="js/common.js"></script>
     <script src="js/contact.js"></script>
     <script src="js/scripts.js"></script>
+
+    <script>
+    (function() {
+        var DIRECTUS = 'https://admin.doskonalo.render.ua';
+
+        function imgUrl(id) {
+            return id ? DIRECTUS + '/assets/' + id + '?width=800&quality=80' : '';
+        }
+
+        function renderPosts(posts) {
+            var container = document.getElementById('blog-posts-container');
+            if (!posts || !posts.length) return;
+            var html = '';
+            for (var i = 0; i < posts.length; i += 3) {
+                var row = posts.slice(i, i + 3);
+                html += '<div class="content-row full row_padding_bottom row_padding_top row_padding_left row_padding_right light-section" data-bgcolor="#E2DED5">';
+                row.forEach(function(post, idx) {
+                    var last = idx === row.length - 1 ? ' last' : '';
+                    var img = imgUrl(post.cover_image);
+                    var imgTag = img ? '<figure><a href="' + img + '" class="image-link"><img src="' + img + '" alt="' + (post.title || '') + '"></a></figure>' : '';
+                    html += '<div class="one_third' + last + '">'
+                        + imgTag
+                        + '<div>'
+                        + '<h5><a class="link" href="post.html?slug=' + (post.slug || '') + '">' + (post.title || '') + '</a></h5>'
+                        + '<p>' + (post.summary || '') + '</p>'
+                        + '</div></div>';
+                });
+                html += '</div>';
+            }
+            container.innerHTML = html;
+        }
+
+        fetch(DIRECTUS + '/items/blog_posts?filter[status][_eq]=published&sort=sort,-published_at&fields=id,title,slug,summary,cover_image')
+            .then(function(r) { return r.json(); })
+            .then(function(d) { renderPosts(d.data); })
+            .catch(function(e) { console.error('Blog load error', e); });
+    })();
+    </script>
 
 
 
