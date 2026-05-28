@@ -3463,20 +3463,6 @@ html,body {
 }
 
 
-/* Force two-column layout for pinned sections independent of GSAP pin-spacer */
-@media only screen and (min-width: 768px) {
-	.pinned-section {
-		display: flex !important;
-		align-items: flex-start;
-	}
-
-	.pinned-section .pinned-element,
-	.pinned-section .scrolling-element {
-		width: 50% !important;
-		float: none;
-	}
-}
-
 /* Restore mission section top spacing on desktop (offset from reduced <hr> count) */
 @media only screen and (min-width: 1025px) {
 	.mission-section {
