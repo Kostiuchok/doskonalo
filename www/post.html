@@ -108,7 +108,7 @@
                 <div id="main">
 
                     <!-- Hero Section -->
-                    <div id="hero" class="has-image autoscroll">
+                    <div id="hero" class="autoscroll">
                         <div id="hero-styles">
                             <div id="hero-caption" class="content-full-width parallax-scroll-caption">
                                 <div>
@@ -124,6 +124,12 @@
                         <div id="main-page-content">
                             <div id="itemsWrapperLinks">
                                 <div id="itemsWrapper" class="webgl-fitthumbs fx-one">
+
+                                    <div id="post-cover-row" class="content-row full light-section" data-bgcolor="#e2ded5" style="display:none;">
+                                        <figure>
+                                            <img id="post-cover-img" alt="" style="width:100%;display:block;">
+                                        </figure>
+                                    </div>
 
                                     <div class="content-row full row_padding_top row_padding_bottom row_padding_left row_padding_right light-section" data-bgcolor="#fff">
                                         <div class="one_third">
@@ -213,7 +219,10 @@
                 document.getElementById('post-content').innerHTML = post.content || '';
 
                 if (post.cover_image) {
-                    document.getElementById('hero').style.backgroundImage = 'url(' + DIRECTUS + '/assets/' + post.cover_image + ')';
+                    var img = document.getElementById('post-cover-img');
+                    img.src = DIRECTUS + '/assets/' + post.cover_image;
+                    img.alt = post.title || '';
+                    document.getElementById('post-cover-row').style.display = '';
                 }
             })
             .catch(function() { window.location.href = 'blog.html'; });
