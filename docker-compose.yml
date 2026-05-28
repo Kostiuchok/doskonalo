@@ -29,7 +29,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       ADMIN_EMAIL: ${ADMIN_EMAIL}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
-      PUBLIC_URL: https://doskonalo.render.ua
+      PUBLIC_URL: https://admin.doskonalo.render.ua
       STORAGE_LOCATIONS: local
       STORAGE_LOCAL_ROOT: /directus/uploads
       CORS_ENABLED: "true"
