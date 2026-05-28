@@ -3645,11 +3645,11 @@ html,body {
 	}
 	
 	.flexnav:hover li  {
-		color:rgba(255,255,255,0.4)
+		color:rgba(0,0,0,0.4)
 	}
-	
+
 	.flexnav li:hover {
-		color:rgba(255,255,255,1)
+		color:rgba(0,0,0,1)
 	}
 	
 	.flexnav li a, .flexnav li ul li a {
@@ -3680,7 +3680,7 @@ html,body {
 	}
 	
 	.invert-header .flexnav li a {
-		color: #fff;
+		color: #000;
 	}
 	
 	.flexnav:hover li a {
