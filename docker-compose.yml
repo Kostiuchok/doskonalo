@@ -29,8 +29,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       ADMIN_EMAIL: ${ADMIN_EMAIL}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
-      PUBLIC_URL: http://178.105.208.56:8055
-      # When HTTPS is set up for admin, change to: https://doskonalo.render.ua:8055
+      PUBLIC_URL: https://doskonalo.render.ua
       STORAGE_LOCATIONS: local
       STORAGE_LOCAL_ROOT: /directus/uploads
       CORS_ENABLED: "true"
