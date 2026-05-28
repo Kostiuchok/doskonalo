@@ -24,12 +24,10 @@ Website for DOSKONALO clinic (cosmetology & dermatology, Kyiv).
 
 | | |
 |---|---|
-| **Admin panel** | http://178.105.208.56:8055/admin |
+| **Admin panel** | https://admin.doskonalo.render.ua |
 | **Website** | https://doskonalo.render.ua |
 | **Admin email** | tolik.kostyuchok@gmail.com |
 | **Admin password** | see `.env` → `ADMIN_PASSWORD` |
-
-> When a real domain is ready — add it to the server's Caddyfile for HTTPS.
 
 ## Directus Collections
 
@@ -65,4 +63,4 @@ docker compose up -d                       # start everything
 - [ ] Connect contact form to save submissions into `contact_submissions`
 - [ ] Convert blog page to fetch posts from Directus API
 - [ ] Convert services page to fetch from Directus API
-- [ ] Point real domain + set up HTTPS via Caddy
+- [x] Point real domain + set up HTTPS via Caddy (admin.doskonalo.render.ua)
