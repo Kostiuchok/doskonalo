@@ -3829,7 +3829,11 @@ html,body {
 
 
 @media only screen and (max-width: 767px) {
-	
+
+	h5 {
+		font-size: calc(1rem + 1.6vw);
+	}
+
 	figcaption {
 		background-color: rgba(0,0,0,0.3);
 		bottom: 0px;
