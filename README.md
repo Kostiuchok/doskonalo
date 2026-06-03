@@ -60,7 +60,7 @@ docker compose up -d                       # start everything
 
 ## Next Steps
 
-- [ ] Connect contact form to save submissions into `contact_submissions`
-- [ ] Convert blog page to fetch posts from Directus API
-- [ ] Convert services page to fetch from Directus API
+- [x] Connect contact form to save submissions into `contact_submissions`
+- [x] Convert blog page to fetch posts from Directus API
+- [x] Convert services page to fetch from Directus API
 - [x] Point real domain + set up HTTPS via Caddy (admin.doskonalo.render.ua)

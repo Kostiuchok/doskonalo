@@ -196,7 +196,7 @@
                                         </div>-->
                                     
                                         <div class="two_third">
-                                            <dl class="accordion has-animation">
+                                            <dl id="services-accordion" class="accordion has-animation">
                                             <dt>
                                                 <span class="link"><div>Мезотерапія/Біоревіталізація</div></span>
                                                 <div class="acc-icon-wrap parallax-wrap">
@@ -564,7 +564,34 @@
     <script src="js/contact.js"></script>
     <script src="js/scripts.js"></script>
 
+    <script>
+    (function() {
+        var DIRECTUS = 'https://admin.doskonalo.render.ua';
 
+        function renderServices(services) {
+            var dl = document.getElementById('services-accordion');
+            if (!dl) return;
+            var html = '';
+            services.forEach(function(s) {
+                html += '<dt>'
+                    + '<span class="link"><div>' + (s.name || '') + '</div></span>'
+                    + '<div class="acc-icon-wrap parallax-wrap"><div class="acc-button-icon parallax-element"><i class="fa fa-arrow-right"></i></div></div>'
+                    + '</dt>'
+                    + '<dd class="accordion-content">'
+                    + (s.description || '')
+                    + (s.price ? '<div><h5>Вартість: ' + s.price + '</h5></div>' : '')
+                    + '</dd>';
+            });
+            dl.innerHTML = html;
+            $(dl).find('dd.accordion-content').hide();
+        }
+
+        fetch(DIRECTUS + '/items/services?filter[status][_eq]=published&sort=sort,name&fields=name,description,price,category')
+            .then(function(r) { return r.json(); })
+            .then(function(d) { if (d.data && d.data.length) renderServices(d.data); })
+            .catch(function(e) { console.error('Services load error', e); });
+    })();
+    </script>
 
 
 </body>
