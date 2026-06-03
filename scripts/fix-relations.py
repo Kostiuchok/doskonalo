@@ -66,45 +66,39 @@ print()
 # ── Fix public permissions ────────────────────────────────────────────────────
 print("=== Fixing public permissions ===")
 
-r, err = _req("GET", "/policies?filter[name][_eq]=Public&limit=1", token=T)
-if err or not r or not r.get("data"):
-    print(f"  ✗ Could not find Public policy: {err}")
+    # Dump all policies so we can find the right one
+r_all, _ = _req("GET", "/policies?limit=50", token=T)
+if r_all and r_all.get("data"):
+    print("  All policies:")
+    for p in r_all["data"]:
+        print(f"    id={p['id']}  name={p.get('name')}  admin={p.get('admin_access')}")
 else:
-    pid = r["data"][0]["id"]
-    print(f"  Policy ID: {pid}")
+    print("  No policies found or endpoint unavailable")
 
-    # For each collection, find existing permission and patch fields to include
-    # virtual relational fields (procedures, subprocedures) alongside *
-    col_fields = {
-        "service_groups":       ["*", "procedures"],
-        "service_procedures":   ["*", "subprocedures"],
-        "service_subprocedures": ["*"],
-    }
-    for col, fields in col_fields.items():
-        # find existing permission
-        r2, err2 = _req("GET",
-            f"/permissions?filter[policy][_eq]={pid}&filter[collection][_eq]={col}&filter[action][_eq]=read&limit=1",
-            token=T)
-        if err2:
-            print(f"  ✗ GET permissions for {col}: {err2}")
-            continue
-        if r2 and r2.get("data"):
-            perm_id = r2["data"][0]["id"]
+# Find permissions by collection directly (no policy filter needed)
+print()
+col_fields = {
+    "service_groups":        ["*", "procedures"],
+    "service_procedures":    ["*", "subprocedures"],
+    "service_subprocedures": ["*"],
+}
+for col, fields in col_fields.items():
+    r2, err2 = _req("GET",
+        f"/permissions?filter[collection][_eq]={col}&filter[action][_eq]=read&limit=10",
+        token=T)
+    if err2:
+        print(f"  ✗ GET permissions for {col}: {err2}")
+        continue
+    if r2 and r2.get("data"):
+        for perm in r2["data"]:
+            perm_id = perm["id"]
             r3, err3 = _req("PATCH", f"/permissions/{perm_id}", {"fields": fields}, T)
             if err3:
-                print(f"  ✗ PATCH {col}: {err3}")
+                print(f"  ✗ PATCH {col} (id={perm_id}): {err3}")
             else:
-                print(f"  ✓ {col} → fields={fields}")
-        else:
-            # create
-            r3, err3 = _req("POST", "/permissions", {
-                "policy": pid, "collection": col, "action": "read",
-                "fields": fields, "permissions": {}, "validation": {},
-            }, T)
-            if err3:
-                print(f"  ✗ POST {col}: {err3}")
-            else:
-                print(f"  ✓ {col} → created with fields={fields}")
+                print(f"  ✓ {col} → fields={fields} (id={perm_id})")
+    else:
+        print(f"  ℹ {col}: no read permissions found — add manually in Directus UI")
 
 print("\nDone. Test:")
 print('  curl -sg --globoff "https://admin.doskonalo.render.ua/items/service_groups?fields=id,title,procedures.id,procedures.title&filter[status][_eq]=published"')
