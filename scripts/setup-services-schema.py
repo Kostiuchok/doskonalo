@@ -39,16 +39,18 @@ def _req(method, path, data=None, token=None):
     except urllib.error.HTTPError as e:
         return None, f"HTTP {e.code}: {e.read().decode()[:300]}"
 
-def post(path, data, token, *, silent_if_exists=True):
+def post(path, data, token, *, silent_if_exists=True, label=None):
     r, err = _req("POST", path, data, token)
     if err:
         low = err.lower()
         if silent_if_exists and ("already exists" in low or "duplicate" in low
                                   or "unique" in low or "23505" in err or "23000" in err):
-            print("    (already exists, skipped)")
+            print(f"    (already exists, skipped){' — ' + label if label else ''}")
             return True
-        print(f"  ✗ POST {path}: {err}")
+        print(f"  ✗ POST {path}{' [' + label + ']' if label else ''}: {err}")
         return False
+    if label:
+        print(f"  ✓ {label}")
     return True
 
 def get(path, token):
@@ -72,8 +74,9 @@ print("✓ Logged in\n")
 
 # ─── Task 1 — service_groups ──────────────────────────────────────────────────
 print("=== Task 1: service_groups ===")
-post("/collections", {"collection": "service_groups",
-    "meta": {"icon": "folder", "note": "Групи послуг — верхній рівень ієрархії"}}, T)
+post("/collections", {"collection": "service_groups", "schema": {},
+    "meta": {"icon": "folder", "note": "Групи послуг — верхній рівень ієрархії"}}, T,
+    label="collection service_groups")
 
 for f in [
     {"field": "status", "type": "string", "schema": {"default_value": "draft"},
@@ -113,8 +116,9 @@ print()
 
 # ─── Task 2 — service_procedures ─────────────────────────────────────────────
 print("=== Task 2: service_procedures ===")
-post("/collections", {"collection": "service_procedures",
-    "meta": {"icon": "list", "note": "Процедури всередині груп послуг"}}, T)
+post("/collections", {"collection": "service_procedures", "schema": {},
+    "meta": {"icon": "list", "note": "Процедури всередині груп послуг"}}, T,
+    label="collection service_procedures")
 
 for f in [
     {"field": "status", "type": "string", "schema": {"default_value": "draft"},
@@ -158,8 +162,9 @@ print()
 
 # ─── Task 3 — service_subprocedures ──────────────────────────────────────────
 print("=== Task 3: service_subprocedures ===")
-post("/collections", {"collection": "service_subprocedures",
-    "meta": {"icon": "attach_money", "note": "Підпроцедури з цінами — прайс-лист"}}, T)
+post("/collections", {"collection": "service_subprocedures", "schema": {},
+    "meta": {"icon": "attach_money", "note": "Підпроцедури з цінами — прайс-лист"}}, T,
+    label="collection service_subprocedures")
 
 for f in [
     {"field": "status", "type": "string", "schema": {"default_value": "draft"},
