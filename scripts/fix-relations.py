@@ -61,5 +61,50 @@ for path, data, label in patches:
     else:
         print(f"  ✓ {label}")
 
+print()
+
+# ── Fix public permissions ────────────────────────────────────────────────────
+print("=== Fixing public permissions ===")
+
+r, err = _req("GET", "/policies?filter[name][_eq]=Public&limit=1", token=T)
+if err or not r or not r.get("data"):
+    print(f"  ✗ Could not find Public policy: {err}")
+else:
+    pid = r["data"][0]["id"]
+    print(f"  Policy ID: {pid}")
+
+    # For each collection, find existing permission and patch fields to include
+    # virtual relational fields (procedures, subprocedures) alongside *
+    col_fields = {
+        "service_groups":       ["*", "procedures"],
+        "service_procedures":   ["*", "subprocedures"],
+        "service_subprocedures": ["*"],
+    }
+    for col, fields in col_fields.items():
+        # find existing permission
+        r2, err2 = _req("GET",
+            f"/permissions?filter[policy][_eq]={pid}&filter[collection][_eq]={col}&filter[action][_eq]=read&limit=1",
+            token=T)
+        if err2:
+            print(f"  ✗ GET permissions for {col}: {err2}")
+            continue
+        if r2 and r2.get("data"):
+            perm_id = r2["data"][0]["id"]
+            r3, err3 = _req("PATCH", f"/permissions/{perm_id}", {"fields": fields}, T)
+            if err3:
+                print(f"  ✗ PATCH {col}: {err3}")
+            else:
+                print(f"  ✓ {col} → fields={fields}")
+        else:
+            # create
+            r3, err3 = _req("POST", "/permissions", {
+                "policy": pid, "collection": col, "action": "read",
+                "fields": fields, "permissions": {}, "validation": {},
+            }, T)
+            if err3:
+                print(f"  ✗ POST {col}: {err3}")
+            else:
+                print(f"  ✓ {col} → created with fields={fields}")
+
 print("\nDone. Test:")
 print('  curl -sg --globoff "https://admin.doskonalo.render.ua/items/service_groups?fields=id,title,procedures.id,procedures.title&filter[status][_eq]=published"')
