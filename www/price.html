@@ -575,12 +575,25 @@
             return Math.round(Number(value)).toLocaleString('uk-UA') + ' грн';
         }
 
-        function renderGroups(groups) {
+        function render(groups, procedures, subprocedures) {
             var container = document.getElementById('services-container');
             if (!container) return;
 
+            var procsByGroup = {};
+            procedures.forEach(function(p) {
+                var gid = p.group_id;
+                if (!procsByGroup[gid]) procsByGroup[gid] = [];
+                procsByGroup[gid].push(p);
+            });
+            var subsByProc = {};
+            subprocedures.forEach(function(s) {
+                var pid = s.procedure_id;
+                if (!subsByProc[pid]) subsByProc[pid] = [];
+                subsByProc[pid].push(s);
+            });
+
             var activeGroups = groups.filter(function(g) {
-                return g.procedures && g.procedures.length > 0;
+                return procsByGroup[g.id] && procsByGroup[g.id].length > 0;
             });
             if (!activeGroups.length) return;
 
@@ -589,12 +602,13 @@
                 html += '<h4 style="margin:40px 0 16px;">' + group.title + '</h4>';
                 html += '<dl class="accordion">';
 
-                group.procedures.forEach(function(proc) {
+                procsByGroup[group.id].forEach(function(proc) {
+                    var subs = subsByProc[proc.id] || [];
                     var priceHtml = '';
-                    if (proc.subprocedures && proc.subprocedures.length) {
+                    if (subs.length) {
                         priceHtml = '<div style="margin-top:16px;"><h5>Вартість процедури:</h5>'
                             + '<table><thead><tr><th>Назва</th><th>Ціна</th></tr></thead><tbody>';
-                        proc.subprocedures.forEach(function(sub) {
+                        subs.forEach(function(sub) {
                             var priceCell = formatPrice(sub.price);
                             if (sub.unit) priceCell += ' / ' + sub.unit;
                             if (sub.old_price) priceCell += '<br><del style="color:#999;font-size:.85em;">' + formatPrice(sub.old_price) + '</del>';
@@ -629,28 +643,19 @@
             $(container).find('dd.accordion-content').hide();
         }
 
-        var fields = [
-            'id,title,order',
-            'procedures.id,procedures.title,procedures.short_description,procedures.description',
-            'procedures.duration,procedures.recovery,procedures.is_featured',
-            'procedures.subprocedures.title,procedures.subprocedures.description',
-            'procedures.subprocedures.price,procedures.subprocedures.old_price',
-            'procedures.subprocedures.unit,procedures.subprocedures.is_promo'
-        ].join(',');
+        var base = DIRECTUS + '/items/';
+        var pf = 'filter[status][_eq]=published&sort=order&limit=500';
 
-        var url = DIRECTUS + '/items/service_groups'
-            + '?fields=' + fields
-            + '&filter[status][_eq]=published'
-            + '&sort=order'
-            + '&deep[procedures][_filter][status][_eq]=published'
-            + '&deep[procedures][_sort]=order'
-            + '&deep[procedures][subprocedures][_filter][status][_eq]=published'
-            + '&deep[procedures][subprocedures][_sort]=order';
-
-        fetch(url)
-            .then(function(r) { return r.json(); })
-            .then(function(d) { if (d.data && d.data.length) renderGroups(d.data); })
-            .catch(function(e) { console.error('Services load error', e); });
+        Promise.all([
+            fetch(base + 'service_groups?fields=id,title,order&' + pf).then(function(r) { return r.json(); }),
+            fetch(base + 'service_procedures?fields=id,group_id,title,short_description,description,duration,recovery,is_featured&' + pf).then(function(r) { return r.json(); }),
+            fetch(base + 'service_subprocedures?fields=id,procedure_id,title,description,price,old_price,unit,is_promo&' + pf).then(function(r) { return r.json(); }),
+        ]).then(function(results) {
+            var groups = results[0].data || [];
+            var procs  = results[1].data || [];
+            var subs   = results[2].data || [];
+            if (groups.length) render(groups, procs, subs);
+        }).catch(function(e) { console.error('Services load error', e); });
     })();
     </script>
 
