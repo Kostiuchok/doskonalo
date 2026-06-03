@@ -317,7 +317,9 @@
     (function() {
         var DIRECTUS = 'https://admin.doskonalo.render.ua';
 
-        $(document).ready(function() {
+        function setupContactForm() {
+            if ($('#contactform').length === 0) return;
+
             $('#contactform').off('submit').on('submit', function(e) {
                 e.preventDefault();
                 var name = $('#name').val().trim();
@@ -360,7 +362,13 @@
                     $('#message').html('<div class="error_message">Сталася помилка. Будь ласка, зателефонуйте нам: <a href="tel:+380980320012">+380 (98) 032 0012</a></div>').slideDown('slow');
                 });
             });
-        });
+        }
+
+        // Override global ContactForm so the AJAX page-transition runner also uses this version
+        window.ContactForm = setupContactForm;
+
+        // Run once for the initial direct page load
+        $(document).ready(setupContactForm);
     })();
     </script>
 
