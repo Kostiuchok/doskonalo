@@ -607,15 +607,21 @@
                     var priceHtml = '';
                     if (subs.length) {
                         priceHtml = '<div style="margin-top:16px;"><h5>Вартість процедури:</h5>'
-                            + '<table><thead><tr><th>Назва</th><th>Ціна</th></tr></thead><tbody>';
+                            + '<table><thead><tr><th>Назва</th><th>Жінки</th><th>Чоловіки</th></tr></thead><tbody>';
                         subs.forEach(function(sub) {
-                            var priceCell = formatPrice(sub.price);
-                            if (sub.unit) priceCell += ' / ' + sub.unit;
-                            if (sub.old_price) priceCell += '<br><del style="color:#999;font-size:.85em;">' + formatPrice(sub.old_price) + '</del>';
-                            if (sub.is_promo) priceCell += ' <span style="color:#c0a060;font-size:.8em;">(акція)</span>';
+                            var wCell = formatPrice(sub.price_women);
+                            var mCell = formatPrice(sub.price_men);
+                            if (sub.unit) {
+                                if (wCell) wCell += ' / ' + sub.unit;
+                                if (mCell) mCell += ' / ' + sub.unit;
+                            }
+                            if (sub.is_promo) {
+                                if (wCell) wCell += ' <span style="color:#c0a060;font-size:.8em;">(акція)</span>';
+                                if (mCell) mCell += ' <span style="color:#c0a060;font-size:.8em;">(акція)</span>';
+                            }
                             var nameCell = sub.title;
                             if (sub.description) nameCell += '<br><small style="color:#888;">' + sub.description + '</small>';
-                            priceHtml += '<tr><td>' + nameCell + '</td><td>' + priceCell + '</td></tr>';
+                            priceHtml += '<tr><td>' + nameCell + '</td><td>' + (wCell || '—') + '</td><td>' + (mCell || '—') + '</td></tr>';
                         });
                         priceHtml += '</tbody></table></div>';
                     }
@@ -658,7 +664,7 @@
         Promise.all([
             fetch(base + 'service_groups?fields=id,title,order&' + pf).then(function(r) { return r.json(); }),
             fetch(base + 'service_procedures?fields=id,group_id,title,short_description,description,duration,recovery,is_featured&' + pf).then(function(r) { return r.json(); }),
-            fetch(base + 'service_subprocedures?fields=id,procedure_id,title,description,price,old_price,unit,is_promo&' + pf).then(function(r) { return r.json(); }),
+            fetch(base + 'service_subprocedures?fields=id,procedure_id,title,description,price_women,price_men,unit,is_promo&' + pf).then(function(r) { return r.json(); }),
         ]).then(function(results) {
             var groups = results[0].data || [];
             var procs  = results[1].data || [];
