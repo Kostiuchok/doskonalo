@@ -1637,7 +1637,12 @@
 		line-height: 28px;
 		margin-top:20px;
 	}
-	
+
+	#hero-caption .inner img {
+		margin-top: -20px;
+		margin-bottom: 60px;
+	}
+
 	.next-hero-title::before {
 		opacity: 0.6;
 		left: 0;
