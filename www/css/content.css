@@ -1625,11 +1625,7 @@
 	}
 
 	.caption-animated .hero-title::after {
-		opacity: 0.6;
-		right: 0;
-		bottom: -50px;
-		width: 100%;
-		top: auto;
+		display: none;
 	}
 	
 	.hero-subtitle, .next-hero-subtitle {
