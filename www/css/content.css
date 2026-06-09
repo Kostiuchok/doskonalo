@@ -1614,7 +1614,7 @@
 	.caption-animated .hero-title::before {
 		opacity: 0.6;
 		left: 0;
-		top: -20px;
+		top: -50px;
 		width: 100%;
 	}
 	
