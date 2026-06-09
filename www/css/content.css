@@ -1639,8 +1639,12 @@
 	}
 
 	#hero-caption .inner img {
+		display: block;
 		margin-top: -20px;
-		margin-bottom: 90px;
+	}
+
+	#hero-caption .inner .hero-title {
+		margin-top: 70px;
 	}
 
 	.next-hero-title::before {
