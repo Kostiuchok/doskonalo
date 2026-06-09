@@ -1594,8 +1594,12 @@
 	
 }
 
-@media only screen and (max-width: 767px) {		
-	
+br.mobile-only { display: none; }
+
+@media only screen and (max-width: 767px) {
+
+	br.mobile-only { display: block; }
+
 	#hero-caption {
 		padding-top: 80px;
 		padding-bottom: 80px;
