@@ -340,33 +340,46 @@
                 var subs = subsByProc[proc.id] || [];
                 var priceHtml = '';
                 if (subs.length) {
-                    var hasGender = subs.some(function(s) { return s.price_women || s.price_men; });
-                    priceHtml = '<div style="margin-top:16px;"><h5>Вартість процедури:</h5>'
-                        + (hasGender
-                            ? '<table><thead><tr><th>Назва</th><th>Жінки</th><th>Чоловіки</th></tr></thead><tbody>'
-                            : '<table><thead><tr><th>Назва</th><th>Ціна</th></tr></thead><tbody>');
+                    var sectionKeys = [];
+                    var sectionMap = {};
                     subs.forEach(function(sub) {
-                        var nameCell = sub.title;
-                        if (sub.description) nameCell += '<br><small style="color:#888;">' + sub.description + '</small>';
-                        var unit = sub.unit ? ' / ' + sub.unit : '';
-                        var promo = sub.is_promo ? ' <span style="color:#c0a060;font-size:.8em;">(акція)</span>' : '';
-                        function cell(val, oldVal) {
-                            if (!val && val !== 0) return '—';
-                            var s = formatPrice(val) + unit;
-                            if (oldVal) s += '<br><del style="color:#999;font-size:.85em;">' + formatPrice(oldVal) + '</del>';
-                            return s + promo;
-                        }
-                        var row;
-                        if (hasGender) {
-                            row = '<td>' + nameCell + '</td>'
-                                + '<td>' + cell(sub.price_women || sub.price, sub.old_price_women || sub.old_price) + '</td>'
-                                + '<td>' + cell(sub.price_men   || sub.price, sub.old_price_men   || sub.old_price) + '</td>';
-                        } else {
-                            row = '<td>' + nameCell + '</td><td>' + cell(sub.price, sub.old_price) + '</td>';
-                        }
-                        priceHtml += '<tr>' + row + '</tr>';
+                        var key = sub.section || '';
+                        if (!sectionMap[key]) { sectionMap[key] = []; sectionKeys.push(key); }
+                        sectionMap[key].push(sub);
                     });
-                    priceHtml += '</tbody></table></div>';
+                    priceHtml = '<div style="margin-top:16px;">';
+                    sectionKeys.forEach(function(key) {
+                        var group = sectionMap[key];
+                        var heading = key || 'Вартість процедури:';
+                        var hasGender = group.some(function(s) { return s.price_women || s.price_men; });
+                        priceHtml += '<h5>' + heading + '</h5>'
+                            + (hasGender
+                                ? '<table><thead><tr><th>Назва</th><th>Жінки</th><th>Чоловіки</th></tr></thead><tbody>'
+                                : '<table><thead><tr><th>Назва</th><th>Ціна</th></tr></thead><tbody>');
+                        group.forEach(function(sub) {
+                            var nameCell = sub.title;
+                            if (sub.description) nameCell += '<br><small style="color:#888;">' + sub.description + '</small>';
+                            var unit = sub.unit ? ' / ' + sub.unit : '';
+                            var promo = sub.is_promo ? ' <span style="color:#c0a060;font-size:.8em;">(акція)</span>' : '';
+                            function cell(val, oldVal) {
+                                if (!val && val !== 0) return '—';
+                                var s = formatPrice(val) + unit;
+                                if (oldVal) s += '<br><del style="color:#999;font-size:.85em;">' + formatPrice(oldVal) + '</del>';
+                                return s + promo;
+                            }
+                            var row;
+                            if (hasGender) {
+                                row = '<td>' + nameCell + '</td>'
+                                    + '<td>' + cell(sub.price_women || sub.price, sub.old_price_women || sub.old_price) + '</td>'
+                                    + '<td>' + cell(sub.price_men   || sub.price, sub.old_price_men   || sub.old_price) + '</td>';
+                            } else {
+                                row = '<td>' + nameCell + '</td><td>' + cell(sub.price, sub.old_price) + '</td>';
+                            }
+                            priceHtml += '<tr>' + row + '</tr>';
+                        });
+                        priceHtml += '</tbody></table>';
+                    });
+                    priceHtml += '</div>';
                 }
 
                 var meta = '';
@@ -412,7 +425,7 @@
                 if (subtitleEl && (group.subtitle || group.description)) subtitleEl.innerHTML = group.subtitle || group.description;
                 return Promise.all([
                     fetch(base + 'service_procedures?fields=id,group_id,title,short_description,description,duration,recovery,is_featured&filter[group_id][_eq]=' + group.id + '&' + pf).then(function(r) { return r.json(); }),
-                    fetch(base + 'service_subprocedures?fields=id,procedure_id,title,description,price,old_price,price_women,old_price_women,price_men,old_price_men,unit,is_promo&' + pf).then(function(r) { return r.json(); }),
+                    fetch(base + 'service_subprocedures?fields=id,procedure_id,title,description,section,price,old_price,price_women,old_price_women,price_men,old_price_men,unit,is_promo&' + pf).then(function(r) { return r.json(); }),
                 ]);
             })
             .then(function(results) {
