@@ -1510,6 +1510,12 @@
 	}
 }
 
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+	#main-content {
+		background-color: #E2DED5;
+	}
+}
+
 @media only screen and (max-width: 1466px) {
 	
 	#hero-caption {
