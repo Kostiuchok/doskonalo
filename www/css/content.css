@@ -1503,6 +1503,19 @@
 
 
 
+@media only screen and (min-width: 768px) {
+	#main-content {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+	#main-content {
+		background-color: #E2DED5;
+	}
+}
+
 @media only screen and (max-width: 1466px) {
 	
 	#hero-caption {
@@ -1594,8 +1607,12 @@
 	
 }
 
-@media only screen and (max-width: 767px) {		
-	
+br.mobile-only { display: none; }
+
+@media only screen and (max-width: 767px) {
+
+	br.mobile-only { display: block; }
+
 	#hero-caption {
 		padding-top: 80px;
 		padding-bottom: 80px;
@@ -1614,22 +1631,18 @@
 	.caption-animated .hero-title::before {
 		opacity: 0.6;
 		left: 0;
-		top: -20px;
+		top: -50px;
 		width: 100%;
 	}
-	
+
 	.hero-title::after {
 		right: 0;
 		top: auto;
 		bottom: -50px;
 	}
-	
+
 	.caption-animated .hero-title::after {
-		opacity: 0.6;
-		right: 0;
-		bottom: -25px;
-		width: 100%;
-		top: auto;
+		display: none;
 	}
 	
 	.hero-subtitle, .next-hero-subtitle {
@@ -1637,7 +1650,16 @@
 		line-height: 28px;
 		margin-top:20px;
 	}
-	
+
+	#hero-caption .inner img {
+		display: block;
+		margin-top: -20px;
+	}
+
+	#hero-caption .inner .hero-title {
+		margin-top: 70px;
+	}
+
 	.next-hero-title::before {
 		opacity: 0.6;
 		left: 0;

@@ -756,11 +756,11 @@ Function Scroll Effects
 			
 			ScrollTrigger.create({
 				trigger: heroCaption,
-				pin: ".new-hero-title", 
-				start: "top 0%",    
+				pin: ".new-hero-title",
+				start: "top 0%",
 				end: '+=30%',
 				scrub: true,
-				pinSpacing: window.innerWidth > 768 ? false : true, // Valoare dinamică
+				pinSpacing: window.innerWidth > 1024 ? false : true,
 			});
 			
 			
