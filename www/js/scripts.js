@@ -2731,36 +2731,6 @@ Function Showcase Snap Slider
 			const snapThumbImg = gsap.utils.toArray(".thumb-slide img");
 			
 			
-			gsap.fromTo(snapSlidesImgMask,
-				{ opacity: 0.1},
-				{
-					duration: 1,
-					opacity: 1,
-					ease: "sine.out",
-					scrollTrigger: {
-						trigger: snapSliderHolder,
-						start: 'top 100%',
-						end: '+=100%',
-						scrub: true,
-					},
-				}
-			);
-			
-			
-			gsap.fromTo(snapSlidesImgMask,
-				{ opacity: 1},
-				{
-					duration: 1,
-					opacity: 0.1,
-					ease: "sine.out",
-					scrollTrigger: {
-						trigger: snapSliderHolder,
-						start: 'bottom 100%',
-						end: '+=100%',
-						scrub: true,
-					},
-				}
-			);
 
 			
 		
