@@ -1340,18 +1340,20 @@
 		z-index: 0;
 		box-sizing: border-box;
 		width: 100%;
-		height:100vh;				
+		height:100vh;
 		height:100dvh;
 		overflow:hidden;
 		display: flex;
 		justify-content: flex-start;
-  		align-items: center;
+  		align-items: flex-start;
+		padding-top: calc(50vh + 11vw + 20px);
+		padding-top: calc(50dvh + 11vw + 20px);
 		pointer-events: none;
 	}
 	
 	.snap-slider-captions-wrapper {
 		width: 100%;
-		height: 60px;
+		height: 90px;
 		display: block;
 		position: relative;
 		overflow: hidden;
@@ -1362,11 +1364,13 @@
 	.snap-slide-caption {
 		position: relative;
 		display: flex;
-		justify-content: space-between;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
 		margin: 0;
-		text-align:left;
+		text-align: center;
 		width: 100%;
-		height:auto;
+		height: 90px;
 		box-sizing:border-box;
 		padding:0;
 		opacity:1;
@@ -1396,11 +1400,12 @@
 	
 	.snap-slider-captions .slide-title, .snap-slider-captions .slide-subtitle {
 		font-size: 24px;
-  		line-height: 60px;
+  		line-height: 1.25;
 		color:#826040;
 		/*font-family:"Playfair Display", serif;*/
 		font-style: normal;
 		font-weight:400;
+		text-align: center;
 	}
 	
 	.snap-slider-captions .slide-current, .snap-slider-captions .slide-counter {
@@ -1410,15 +1415,15 @@
 	}
 	
 	.snap-slider-captions .slide-title, .snap-slider-captions .slide-subtitle {
-		width:30%;		
+		width: auto;
 	}
-	
+
 	.snap-slider-captions .slide-current, .snap-slider-captions .slide-counter {
-		width:20%;		
+		display: none;
 	}
-	
+
 	.snap-slider-captions .slide-counter, .snap-slider-captions .slide-subtitle {
-		text-align:right;
+		text-align: center;
 	}	
 	
 	.snap-slide-caption.change-header .slide-title, .snap-slide-caption.change-header .slide-current, .snap-slide-caption.change-header .slide-counter, .snap-slide-caption.change-header .slide-subtitle {
@@ -1453,11 +1458,11 @@
 @media only screen and (max-width: 1024px) {
 	
 	.snap-slider-captions .slide-title, .snap-slider-captions .slide-subtitle {
-		width:100%
+		width: auto;
 	}
-	
+
 	.snap-slider-captions .slide-current, .snap-slider-captions .slide-counter {
-		display:none;
+		display: none;
 	}
 	
 	.showcase-gallery .clapat-slider {
@@ -1531,7 +1536,9 @@
 	}
 	
 	.snap-slider-captions {
-    	align-items: flex-end;
+		align-items: flex-start;
+		padding-top: calc(50vh + 21vw + 16px);
+		padding-top: calc(50dvh + 21vw + 16px);
 	}
 	
 	.snap-slider-captions .slide-title, .snap-slider-captions .slide-subtitle {
