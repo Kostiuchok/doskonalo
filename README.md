@@ -58,6 +58,10 @@ docker compose down                        # stop everything
 docker compose up -d                       # start everything
 ```
 
+## Connect to the server
+
+ssh root@178.105.208.56
+
 ## Next Steps
 
 - [x] Connect contact form to save submissions into `contact_submissions`

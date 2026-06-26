@@ -1406,6 +1406,7 @@
 		font-style: normal;
 		font-weight:400;
 		text-align: center;
+		display: inline;
 	}
 	
 	.snap-slider-captions .slide-current, .snap-slider-captions .slide-counter {
