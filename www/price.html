@@ -651,7 +651,7 @@
                                 }
                                 var row;
                                 if (mixed) {
-                                    var singlePrice = sub.price_text ? (sub.price_text + promo) : cell(sub.price, sub.old_price);
+                                    var singlePrice = sub.price_text ? (sub.price_text + ' грн' + promo) : cell(sub.price, sub.old_price);
                                     row = '<td>' + nameCell + '</td>'
                                         + '<td>' + singlePrice + '</td>'
                                         + '<td>' + cell(sub.price_women, sub.old_price_women) + '</td>'
@@ -661,7 +661,7 @@
                                         + '<td>' + cell(sub.price_women || sub.price, sub.old_price_women || sub.old_price) + '</td>'
                                         + '<td>' + cell(sub.price_men   || sub.price, sub.old_price_men   || sub.old_price) + '</td>';
                                 } else {
-                                    var priceCell = sub.price_text ? (sub.price_text + promo) : cell(sub.price, sub.old_price);
+                                    var priceCell = sub.price_text ? (sub.price_text + ' грн' + promo) : cell(sub.price, sub.old_price);
                                     row = '<td>' + nameCell + '</td><td>' + priceCell + '</td>';
                                 }
                                 priceHtml += '<tr>' + row + '</tr>';
