@@ -369,9 +369,13 @@
                             }
                             var row;
                             if (hasGender) {
-                                row = '<td>' + nameCell + '</td>'
-                                    + '<td>' + cell(sub.price_women || sub.price, sub.old_price_women || sub.old_price) + '</td>'
-                                    + '<td>' + cell(sub.price_men   || sub.price, sub.old_price_men   || sub.old_price) + '</td>';
+                                if (sub.price_text) {
+                                    row = '<td>' + nameCell + '</td><td colspan="2">' + sub.price_text + promo + '</td>';
+                                } else {
+                                    row = '<td>' + nameCell + '</td>'
+                                        + '<td>' + cell(sub.price_women || sub.price, sub.old_price_women || sub.old_price) + '</td>'
+                                        + '<td>' + cell(sub.price_men   || sub.price, sub.old_price_men   || sub.old_price) + '</td>';
+                                }
                             } else {
                                 var priceCell = sub.price_text ? (sub.price_text + promo) : cell(sub.price, sub.old_price);
                                 row = '<td>' + nameCell + '</td><td>' + priceCell + '</td>';
@@ -426,7 +430,7 @@
                 if (subtitleEl && (group.subtitle || group.description)) subtitleEl.innerHTML = group.subtitle || group.description;
                 return Promise.all([
                     fetch(base + 'service_procedures?fields=id,group_id,title,short_description,description,duration,recovery,is_featured&filter[group_id][_eq]=' + group.id + '&' + pf).then(function(r) { return r.json(); }),
-                    fetch(base + 'service_subprocedures?fields=id,procedure_id,title,description,section,price,old_price,price_women,old_price_women,price_men,old_price_men,unit,is_promo&' + pf).then(function(r) { return r.json(); }),
+                    fetch(base + 'service_subprocedures?fields=id,procedure_id,title,description,section,price,old_price,price_women,old_price_women,price_men,old_price_men,unit,is_promo,price_text&' + pf).then(function(r) { return r.json(); }),
                 ]);
             })
             .then(function(results) {
