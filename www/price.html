@@ -696,7 +696,7 @@
         Promise.all([
             fetch(base + 'service_groups?fields=id,title,order&' + pf).then(function(r) { return r.json(); }),
             fetch(base + 'service_procedures?fields=id,group_id,title,short_description,description,duration,recovery,is_featured&' + pf).then(function(r) { return r.json(); }),
-            fetch(base + 'service_subprocedures?fields=id,procedure_id,title,description,section,price,old_price,price_women,old_price_women,price_men,old_price_men,unit,is_promo,price_text&' + pf).then(function(r) { return r.json(); }),
+            fetch(base + 'service_subprocedures?fields=id,procedure_id,title,description,section,price,old_price,price_women,old_price_women,price_men,old_price_men,unit,is_promo&' + pf).then(function(r) { return r.json(); }),
         ]).then(function(results) {
             var groups = results[0].data || [];
             var procs  = results[1].data || [];
