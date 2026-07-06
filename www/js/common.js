@@ -3713,8 +3713,17 @@ Function Shortcodes
 		});
 		
 		$(".flexnav").flexNav({ 'animationSpeed' : 250 });
-		
-		// Project Share	
+
+		// Keep the current category's submenu expanded on mobile after navigating to one of its pages
+		$(".flexnav .item-with-ul").each(function() {
+			var $item = $(this);
+			if ($item.find("> ul a.active").length) {
+				$item.find("> ul").addClass("flexnav-show").show();
+				$item.find("> span.touch-button").addClass("active");
+			}
+		});
+
+		// Project Share
 		
 		$("#share").jsSocials({
             showLabel: false,
