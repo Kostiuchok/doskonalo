@@ -3470,6 +3470,13 @@ html,body {
 	}
 }
 
+/* Extend "Про клініку" link hit area over the icon too, without touching the float layout */
+.mission-section .button-wrap .stretched-link:after {
+	content: "";
+	position: absolute;
+	inset: 0;
+}
+
 /* Mobile copyright bar — hidden on desktop, shown on tablet/mobile */
 .mobile-copyright-bar {
 	display: none;
