@@ -368,10 +368,16 @@
                             if (sub.description) nameCell += '<br><small style="color:#888;">' + sub.description + '</small>';
                             var unit = sub.unit ? ' / ' + sub.unit : '';
                             var promo = sub.is_promo ? ' <span style="color:#c0a060;font-size:.8em;">(акція)</span>' : '';
+                            function isNumericPrice(v) {
+                                return v !== null && v !== '' && !isNaN(Number(v));
+                            }
                             function cell(val, oldVal) {
                                 if (!val && val !== 0) return '—';
-                                var s = formatPrice(val) + unit;
-                                if (oldVal) s += '<br><del style="color:#999;font-size:.85em;">' + formatPrice(oldVal) + '</del>';
+                                var s = isNumericPrice(val) ? (formatPrice(val) + unit) : (val + ' грн');
+                                if (oldVal) {
+                                    var oldS = isNumericPrice(oldVal) ? formatPrice(oldVal) : (oldVal + ' грн');
+                                    s += '<br><del style="color:#999;font-size:.85em;">' + oldS + '</del>';
+                                }
                                 return s + promo;
                             }
                             var row;
