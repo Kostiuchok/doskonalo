@@ -3851,6 +3851,7 @@ html,body {
 
 	table {
 		display: block;
+		min-width: 100%;
 		overflow-x: auto;
 		-webkit-overflow-scrolling: touch;
 	}
