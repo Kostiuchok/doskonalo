@@ -79,13 +79,38 @@ Per section (group of subprocedures):
 - Only gender rows → 2 columns: **Назва \| Жінки \| Чоловіки**
 - Mixed → 4 columns: **Назва \| Ціна \| Жінки \| Чоловіки**
 
-## Migration plan (future)
+## План міграції (майбутнє)
 
-Target: move to client domain `doskonalo.clinic`.
+Мета: перенос на клієнтський домен `doskonalo.clinic`. Рішення: Directus + PostgreSQL **лишаються на поточному VPS** (`178.105.208.56`, `admin.doskonalo.render.ua`) — на shared hosting клієнта переїжджає тільки статичний фронтенд `www/`. Всі внутрішні посилання між сторінками в HTML — відносні (`about.html`, `price.html` тощо), тож переписувати їх не потрібно, якщо `www/` заливається в корінь хостингу як є.
 
-- Static HTML → client's hosting (any shared/VPS)
-- Directus + PostgreSQL → stays on current VPS or moves to client VPS
-- On migration: replace all `admin.doskonalo.render.ua` references in HTML with new admin URL
+### Чекліст
+
+**Підготовка**
+- [ ] Отримати доступ до shared hosting (FTP/SFTP або панель керування — cPanel/Plesk/ISPmanager)
+- [ ] Підтвердити, хто керує DNS для `doskonalo.clinic` (ми або клієнт)
+- [ ] Підтвердити, що хостинг підтримує HTTPS (AutoSSL/Let's Encrypt через панель)
+- [ ] Синхронізувати `www/` з VPS (`root@178.105.208.56:/root/doskonalo/www/`) з GitHub-репо (`Kostiuchok/doskonalo`) перед переносом
+
+**Заливка файлів**
+- [ ] Завантажити вміст `www/` у кореневу директорію хостингу (`public_html/` або еквівалент), зберігаючи структуру папок (`css/`, `js/`, `images/`, `webfonts/`, `data/`, `admin/`)
+- [ ] Не переносити невикористовувані застарілі файли (`contact.php` — мертвий код, форма насправді відправляється в Directus через `fetch()`; `clapaert portfolio block.html`)
+- [ ] Не чіпати змінну `DIRECTUS` (`https://admin.doskonalo.render.ua`) у 9 файлах, де вона є (`service-*.html`, `blog.html`, `post.html`, `price.html`, `contact-form.html`)
+
+**DNS + HTTPS**
+- [ ] Прописати A-запис (або CNAME) `doskonalo.clinic` на IP нового хостингу
+- [ ] Увімкнути SSL на новому хостингу
+- [ ] Дочекатись пропагації DNS (до 24–48 год)
+
+**Перевірка**
+- [ ] Відкрити всі сторінки на новому домені: `index`, `about`, `price`, `blog`, `likari`, `service-*`
+- [ ] Перевірити, що контент з Directus підтягується (ціни, блог, послуги) — cross-origin запити до `admin.doskonalo.render.ua` мають працювати, бо `CORS_ORIGIN: "true"`
+- [ ] Відправити тестове звернення через контактну форму, перевірити появу в `contact_submissions`
+- [ ] Перевірити мобільну версію
+- [ ] Перевірити, що всі внутрішні навігаційні посилання (відносні шляхи) працюють на новому домені
+
+**Фіналізація**
+- [ ] Оновити цей README новими деталями хостингу/доступів
+- [ ] Вирішити, чи зупиняти старий `www` nginx-контейнер (порт 8080) на VPS, чи лишити як staging — контейнери `db`/`directus` не чіпати
 
 ## Changelog
 

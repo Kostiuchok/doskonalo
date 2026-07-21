@@ -319,7 +319,7 @@
 
         function formatPrice(value) {
             if (!value && value !== 0) return '';
-            return Math.round(Number(value)).toLocaleString('uk-UA') + ' грн';
+            return '<span class="price-num">' + Math.round(Number(value)) + '</span><span class="price-currency"> грн</span>';
         }
 
         function renderProcedures(procedures, subprocedures) {
