@@ -319,7 +319,7 @@
 
         function formatPrice(value) {
             if (!value && value !== 0) return '';
-            return '<span class="price-num">' + Math.round(Number(value)) + '</span><span class="price-currency"> грн</span>';
+            return '<span class="price-num">' + Math.round(Number(value)) + '</span><span class="price-currency">&nbsp;грн</span>';
         }
 
         function renderProcedures(procedures, subprocedures) {
@@ -356,11 +356,11 @@
                         var mixed = hasGender && hasPrice;
                         var thead;
                         if (mixed) {
-                            thead = '<table><thead><tr><th>Назва</th><th>Ціна</th><th>Жінки</th><th>Чоловіки</th></tr></thead><tbody>';
+                            thead = '<table><thead><tr><th>Назва</th><th class="price-col">Ціна</th><th class="price-col">Жінки</th><th class="price-col">Чоловіки</th></tr></thead><tbody>';
                         } else if (hasGender) {
-                            thead = '<table><thead><tr><th>Назва</th><th>Жінки</th><th>Чоловіки</th></tr></thead><tbody>';
+                            thead = '<table><thead><tr><th>Назва</th><th class="price-col">Жінки</th><th class="price-col">Чоловіки</th></tr></thead><tbody>';
                         } else {
-                            thead = '<table><thead><tr><th>Назва</th><th>Ціна</th></tr></thead><tbody>';
+                            thead = '<table><thead><tr><th>Назва</th><th class="price-col">Ціна</th></tr></thead><tbody>';
                         }
                         priceHtml += '<h5>' + heading + '</h5>' + thead;
                         group.forEach(function(sub) {
@@ -373,16 +373,16 @@
                             }
                             function cell(val, oldVal) {
                                 if (!val && val !== 0) return '—';
-                                var s = isNumericPrice(val) ? (formatPrice(val) + unit) : (val + ' грн');
+                                var s = isNumericPrice(val) ? (formatPrice(val) + unit) : (val + '&nbsp;грн');
                                 if (oldVal) {
-                                    var oldS = isNumericPrice(oldVal) ? formatPrice(oldVal) : (oldVal + ' грн');
+                                    var oldS = isNumericPrice(oldVal) ? formatPrice(oldVal) : (oldVal + '&nbsp;грн');
                                     s += '<br><del style="color:#999;font-size:.85em;">' + oldS + '</del>';
                                 }
                                 return s + promo;
                             }
                             var row;
                             if (mixed) {
-                                var singlePrice = sub.price_text ? (sub.price_text + ' грн' + promo) : cell(sub.price, sub.old_price);
+                                var singlePrice = sub.price_text ? (sub.price_text + '&nbsp;грн' + promo) : cell(sub.price, sub.old_price);
                                 row = '<td>' + nameCell + '</td>'
                                     + '<td>' + singlePrice + '</td>'
                                     + '<td>' + cell(sub.price_women, sub.old_price_women) + '</td>'
@@ -392,7 +392,7 @@
                                     + '<td>' + cell(sub.price_women || sub.price, sub.old_price_women || sub.old_price) + '</td>'
                                     + '<td>' + cell(sub.price_men   || sub.price, sub.old_price_men   || sub.old_price) + '</td>';
                             } else {
-                                var priceCell = sub.price_text ? (sub.price_text + ' грн' + promo) : cell(sub.price, sub.old_price);
+                                var priceCell = sub.price_text ? (sub.price_text + '&nbsp;грн' + promo) : cell(sub.price, sub.old_price);
                                 row = '<td>' + nameCell + '</td><td>' + priceCell + '</td>';
                             }
                             priceHtml += '<tr>' + row + '</tr>';

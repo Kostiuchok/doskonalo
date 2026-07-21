@@ -507,6 +507,11 @@ html,body {
 		text-align: right;
 	}
 
+	.price-col {
+		width: 110px;
+		white-space: nowrap;
+	}
+
 	del {
 		color: #767676;
 	}
