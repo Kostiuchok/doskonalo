@@ -510,6 +510,7 @@ html,body {
 	.price-col {
 		width: 110px;
 		white-space: nowrap;
+		text-align: right;
 	}
 
 	del {
@@ -3847,6 +3848,12 @@ html,body {
 
 
 @media only screen and (max-width: 767px) {
+
+	table {
+		display: block;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
 
 	h5 {
 		font-size: calc(1rem + 1.6vw);
