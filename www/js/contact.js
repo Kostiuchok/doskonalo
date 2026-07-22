@@ -2,36 +2,57 @@
 Function Contact Formular
 ---------------------------------------------------*/	
 		
-	function ContactForm() {	
-	
-		if( $('#contact-formular').length > 0 ){
-			
-			$('#contactform').submit(function(){
-				var action = $(this).attr('action');
-				$("#message").slideUp(750,function() {
-					$('#message').hide();
-					$('#submit').attr('disabled','disabled');		
-					$.post(action, {
-						name: $('#name').val(),
-						email: $('#email').val(),
-						comments: $('#comments').val(),
-						verify: $('#verify').val()
-					},
-					function(data){
-						document.getElementById('message').innerHTML = data;
-						$('#message').slideDown('slow');
-						$('#contactform img.loader').fadeOut('slow',function(){$(this).remove()});
-						$('#submit').removeAttr('disabled');
-						if(data.match('success') != null) $('#contactform').slideUp('slow');		
-					}
-				);		
-				});		
-				return false;		
-			});		
-		}
-		
+	function ContactForm() {
 
-	}//End ContactForm	
+		if( $('#contact-formular').length > 0 ){
+
+			var DIRECTUS = 'https://admin.doskonalo.clinic';
+
+			$('#contactform').off('submit').on('submit', function(e) {
+				e.preventDefault();
+				var name = $('#name').val().trim();
+				var phone = $('#phone').val().trim();
+				var email = $('#email').val().trim();
+				var contactMethod = $('#browsers').val();
+
+				if (!name) {
+					$('#message').html('<div class="error_message">Будь ласка, вкажіть ваше ім\'я.</div>').slideDown('slow');
+					return;
+				}
+				if (!phone && !email) {
+					$('#message').html('<div class="error_message">Будь ласка, вкажіть телефон або email.</div>').slideDown('slow');
+					return;
+				}
+
+				$('#submit').prop('disabled', true);
+				$('#message').slideUp(300);
+
+				fetch(DIRECTUS + '/items/contact_submissions', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						name: name,
+						phone: phone,
+						email: email,
+						message: 'Зручний спосіб зв\'язку: ' + contactMethod
+					})
+				})
+				.then(function(r) {
+					if (!r.ok) throw new Error('HTTP ' + r.status);
+				})
+				.then(function() {
+					$('#contactform').slideUp('slow');
+					$('#message').html('<div id="success_page"><h3>Дякуємо!</h3><p>Ми зв\'яжемося з вами найближчим часом.</p></div>').slideDown('slow');
+				})
+				.catch(function() {
+					$('#submit').prop('disabled', false);
+					$('#message').html('<div class="error_message">Сталася помилка. Будь ласка, зателефонуйте нам: <a href="tel:+380980320012">+380 (98) 032 0012</a></div>').slideDown('slow');
+				});
+			});
+		}
+
+
+	}//End ContactForm
 
 
 /*--------------------------------------------------
