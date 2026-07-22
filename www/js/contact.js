@@ -8,6 +8,9 @@ Function Contact Formular
 
 			var DIRECTUS = 'https://admin.doskonalo.clinic';
 
+			var PHONE_RE = /^[0-9+\s()-]{7,20}$/;
+			var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 			$('#contactform').off('submit').on('submit', function(e) {
 				e.preventDefault();
 				var name = $('#name').val().trim();
@@ -15,12 +18,24 @@ Function Contact Formular
 				var email = $('#email').val().trim();
 				var contactMethod = $('#browsers').val();
 
+				if ($('#website').val()) {
+					// honeypot field filled in — silently drop, likely a bot
+					return;
+				}
 				if (!name) {
 					$('#message').html('<div class="error_message">Будь ласка, вкажіть ваше ім\'я.</div>').slideDown('slow');
 					return;
 				}
 				if (!phone && !email) {
 					$('#message').html('<div class="error_message">Будь ласка, вкажіть телефон або email.</div>').slideDown('slow');
+					return;
+				}
+				if (phone && !PHONE_RE.test(phone)) {
+					$('#message').html('<div class="error_message">Будь ласка, вкажіть коректний номер телефону.</div>').slideDown('slow');
+					return;
+				}
+				if (email && !EMAIL_RE.test(email)) {
+					$('#message').html('<div class="error_message">Будь ласка, вкажіть коректний email.</div>').slideDown('slow');
 					return;
 				}
 

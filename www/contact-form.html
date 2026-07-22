@@ -176,16 +176,19 @@
                                         
                                             <div id="message"></div>
                                         
-                                            <form method="post" action="contact.php" name="contactform" id="contactform">                             
-                                                <div class="name-box">        
+                                            <form method="post" action="contact.php" name="contactform" id="contactform">
+                                                <div style="position:absolute; left:-9999px;" aria-hidden="true">
+                                                    <input name="website" type="text" id="website" tabindex="-1" autocomplete="off">
+                                                </div>
+                                                <div class="name-box">
                                                     <input name="name" type="text" id="name" size="30" value="" placeholder="Ваше ім’я"><label class="input_label"></label>
-                                                </div>  
-                                                <div class="name-box">        
-                                                    <input name="phone" type="text" id="phone" size="30" value="" placeholder="Телефон"><label class="input_label"></label>
-                                                </div>                                                       
+                                                </div>
+                                                <div class="name-box">
+                                                    <input name="phone" type="tel" id="phone" size="30" value="" placeholder="Телефон"><label class="input_label"></label>
+                                                </div>
                                                 <div class="email-box">
-                                                    <input name="email" type="text" id="email" size="30" value="" placeholder="Email"><label class="input_label"></label>
-                                                </div>                            
+                                                    <input name="email" type="email" id="email" size="30" value="" placeholder="Email"><label class="input_label"></label>
+                                                </div>
                                                 <div class="list-box">
                                                     <p>Оберіть зручний спосіб зв’язку</p>
                                                     <select id="browsers" onchange="fifa()">
