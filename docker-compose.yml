@@ -34,6 +34,13 @@ services:
       STORAGE_LOCAL_ROOT: /directus/uploads
       CORS_ENABLED: "true"
       CORS_ORIGIN: "true"
+      EMAIL_TRANSPORT: smtp
+      EMAIL_FROM: info@doskonalo.clinic
+      EMAIL_SMTP_HOST: mail.adm.tools
+      EMAIL_SMTP_PORT: 587
+      EMAIL_SMTP_SECURE: "false"
+      EMAIL_SMTP_USER: info@doskonalo.clinic
+      EMAIL_SMTP_PASSWORD: ${EMAIL_SMTP_PASSWORD}
     volumes:
       - ./uploads:/directus/uploads
     networks:
