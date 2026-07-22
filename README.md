@@ -103,6 +103,7 @@ Target: move to client domain `doskonalo.clinic`. Decisions locked in:
 - [x] Upload `www/` files to client's shared hosting via FTP (174 files, all succeeded; placeholder `index.html` replaced)
 - [x] Smoke test on `doskonalo.clinic`: pages load (price/blog/contact-form/service-body all HTTP 200), price/services/blog fetch from `admin.doskonalo.clinic` correctly, contact form submits and is confirmed end-to-end (test row created then deleted)
 - [ ] Once confirmed working, treat `doskonalo.clinic` as primary; decide whether to keep or retire `doskonalo.render.ua` / `admin.doskonalo.render.ua`
+- [ ] **Cleanup:** the shared-host upload carried over unused legacy files as-is (`contact.php` — dead code, the real form posts to Directus via `fetch()`; `clapaert portfolio block.html`) — fine functionally, but worth pruning next time `www/` gets re-synced
 
 ## Changelog
 

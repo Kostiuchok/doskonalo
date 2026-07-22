@@ -500,7 +500,19 @@ html,body {
 		border-width: 0 1px 1px 0;
 		padding: 10px;
 	}
-	
+
+	.price-num {
+		display: inline-block;
+		min-width: 4.5ch;
+		text-align: right;
+	}
+
+	.price-col {
+		width: 110px;
+		white-space: nowrap;
+		text-align: right;
+	}
+
 	del {
 		color: #767676;
 	}
