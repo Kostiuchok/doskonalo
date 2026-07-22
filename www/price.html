@@ -724,11 +724,11 @@
             var $acc = $(container).find('dl.accordion');
             $acc.find('dd.accordion-content').slideUp(1).addClass('hide');
             $acc.on('click', 'dt', function() {
-                $(this).addClass('accordion-active').next().slideDown(350).siblings('dd.accordion-content').slideUp(350).prev().removeClass('accordion-active');
+                $(this).addClass('accordion-active').next().slideDown(350);
                 $(this).delay(500).queue(function() { ScrollTrigger.refresh(); $(this).dequeue(); });
             });
             $acc.on('click', 'dt.accordion-active', function() {
-                $(this).removeClass('accordion-active').siblings('dd.accordion-content').slideUp(350);
+                $(this).removeClass('accordion-active').next().slideUp(350);
                 $(this).delay(500).queue(function() { ScrollTrigger.refresh(); $(this).dequeue(); });
             });
         }
