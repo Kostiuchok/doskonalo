@@ -2,6 +2,8 @@
 
 Website for DOSKONALO clinic (cosmetology & dermatology, Kyiv). Live at **https://doskonalo.clinic**.
 
+**Status:** migration to `doskonalo.clinic` is done and this is production. The old `doskonalo.render.ua` / `admin.doskonalo.render.ua` (Caddy still proxies it to the `doskonalo-www-1` container on the VPS, port 8080) is stale, unmaintained, and no longer gets frontend updates — **what to do with it is an open decision for a future session** (retire it / redirect it / leave it as-is), see "Next Steps".
+
 ## Architecture (since the 2026-07-22 migration)
 
 Two separate hosts, on purpose — see "Migration plan" below for why:
@@ -100,7 +102,7 @@ Per section (group of subprocedures):
 - Only gender rows → 2 columns: **Назва \| Жінки \| Чоловіки**
 - Mixed → 4 columns: **Назва \| Ціна \| Жінки \| Чоловіки**
 
-## Migration plan: doskonalo.clinic
+## Migration plan: doskonalo.clinic (completed 2026-07-22 — kept here for history/context)
 
 Target: move to client domain `doskonalo.clinic`. Decisions locked in:
 
