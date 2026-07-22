@@ -79,15 +79,37 @@ Per section (group of subprocedures):
 - Only gender rows → 2 columns: **Назва \| Жінки \| Чоловіки**
 - Mixed → 4 columns: **Назва \| Ціна \| Жінки \| Чоловіки**
 
-## Migration plan (future)
+## Migration plan: doskonalo.clinic
 
-Target: move to client domain `doskonalo.clinic`.
+Target: move to client domain `doskonalo.clinic`. Decisions locked in:
 
-- Static HTML → client's hosting (any shared/VPS)
-- Directus + PostgreSQL → stays on current VPS or moves to client VPS
-- On migration: replace all `admin.doskonalo.render.ua` references in HTML with new admin URL
+- Static HTML → client's shared hosting (cPanel/FTP, provider adm.tools). Domain already resolves there (185.68.16.52), currently showing the hosting's default placeholder page — no site files uploaded yet.
+- Directus + PostgreSQL → **stay on current VPS** (`178.105.208.56`), reachable via new subdomain `admin.doskonalo.clinic`.
+
+**Security note:** on a third-party shared host we don't control tenant isolation (hypervisor/container escape, backup/snapshot access, hosting staff) — a compromise there can't be prevented by us, only bounded by what's exposed. The only thing that must never reach that host is the repo's `.env` (`DB_PASSWORD`, `SECRET` — Directus's JWT signing key — and `ADMIN_EMAIL`/`ADMIN_PASSWORD`): it's already `.gitignore`d and lives with `docker-compose.yml` for the VPS side, but nothing stops someone from FTP/zipping the whole project folder instead of just `www/` during deploy. Only `www/` (static HTML/JS, no secrets — the pages call Directus anonymously via its Public role, no token embedded) is meant to leave the VPS.
+
+### Checklist
+
+- [x] **DNS**: client added A record `admin.doskonalo.clinic` → `178.105.208.56` (2026-07-22)
+- [x] Confirm DNS propagated (`nslookup admin.doskonalo.clinic` → `178.105.208.56`)
+- [x] Add Caddy site block on VPS for `admin.doskonalo.clinic` (auto HTTPS) — added to `/root/dddcore/Caddyfile` on the VPS (shared Caddy instance, also serves `ddd.render.ua`, `doskonalo.render.ua`, `ulit.render.ua`, `ue-commerce.render.ua`, `finlover.render.ua`). Note: the bind-mounted Caddyfile inside the running container was stale (predated this edit), so a straight `reload` reported "config unchanged" — required `docker compose restart caddy` to actually pick up the new file. Cert issued, verified HTTP 200; other 5 sites re-checked healthy after restart.
+- [x] Update `docker-compose.yml`: `PUBLIC_URL` → `https://admin.doskonalo.clinic` (updated on VPS `/root/doskonalo/docker-compose.yml` and mirrored in this repo)
+- [x] Update `DIRECTUS` var in the 9 HTML files that call the API → `https://admin.doskonalo.clinic` (`price.html`, `blog.html`, `post.html`, `contact-form.html`, `service-skincare.html`, `service-longlife.html`, `service-injection.html`, `service-hardware.html`, `service-body.html`)
+- [x] Restart `directus` container to pick up new `PUBLIC_URL` — done, verified `/server/info` responds on new domain
+- [x] **Security: audited the Directus Public policy** — found far worse than expected: `contact_submissions` had full `create`/`read`/`update`/`delete`/`share` open to anonymous, all fields. Removed everything except `create`. Verified: anonymous `GET /items/contact_submissions` now returns `FORBIDDEN`; anonymous `POST` still succeeds (now returns `204` instead of the created object, since the policy can no longer read back what it created).
+- [x] **Fixed a regression this caused**: `contact-form.html`'s success handler called `r.json()` on the POST response, which would throw on the new empty `204` body and route real successful submissions into the error-message branch. Removed the `.json()` call (its result was unused anyway). Re-deployed and confirmed live.
+- [x] **Security: only uploaded the `www/` directory** to the shared host via FTP — repo root, `.env`, `docker-compose.yml`, `scripts/` were never touched on that host.
+- [ ] **Security: rotate `SECRET`/`ADMIN_PASSWORD`/`DB_PASSWORD` in `.env`** once, as a precaution — still pending, do this in a calm moment, not urgent since `.env` never left the VPS.
+- [x] Upload `www/` files to client's shared hosting via FTP (174 files, all succeeded; placeholder `index.html` replaced)
+- [x] Smoke test on `doskonalo.clinic`: pages load (price/blog/contact-form/service-body all HTTP 200), price/services/blog fetch from `admin.doskonalo.clinic` correctly, contact form submits and is confirmed end-to-end (test row created then deleted)
+- [ ] Once confirmed working, treat `doskonalo.clinic` as primary; decide whether to keep or retire `doskonalo.render.ua` / `admin.doskonalo.render.ua`
 
 ## Changelog
+
+### 2026-07-22
+- Migrated live site from `doskonalo.render.ua` to `doskonalo.clinic`: DNS, Caddy site block on VPS, `PUBLIC_URL`, `DIRECTUS` var in 9 HTML files, `www/` uploaded to client's shared hosting
+- Security: locked down Directus Public policy on `contact_submissions` from full `create/read/update/delete/share` (anonymous) down to `create`-only
+- Fixed `contact-form.html` success handler to not call `r.json()` on the now-empty `204` POST response
 
 ### 2026-06-26
 - Services section background: `#000` → `#E2DED5`
