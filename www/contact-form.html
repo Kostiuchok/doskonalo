@@ -25,7 +25,28 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@100;200;300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&display=swap" rel="stylesheet">
-   
+    <style>
+        .simple-book-btn {
+            display: inline-block;
+            padding: 16px 48px;
+            background: #826040;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: background 0.25s ease, opacity 0.25s ease;
+        }
+        .simple-book-btn:hover {
+            background: #6b4f34;
+            color: #fff;
+        }
+        .simple-book-btn.is-disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+    </style>
 </head>
 
 
@@ -176,21 +197,9 @@
                                                 </div>
                                                 
                                             
-                                                <div class="button-box has-animation" data-delay="100">
-                                                    <div class="clapat-button-wrap parallax-wrap hide-ball">
-                                                        <div class="clapat-button parallax-element">
-                                                            <div class="button-border rounded parallax-element-second">
-                                                                <a href="#">
-                                                                    <span data-hover="Записатися"><input type="submit" class="send_message" id="submit" value="Записатися" /></span>
-                                                                 </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                <div class="button-box" style="text-align:center; margin-top:24px;">
+                                                    <a href="#" id="submit" class="simple-book-btn">Записатися</a>
                                                 </div>
-
-                                                <p style="text-align:center; margin-top:16px;">
-                                                    <a href="#" id="submit-plain" style="color:#826040; text-decoration:underline;">Відправити заявку</a>
-                                                </p>
 
 
                                             </form>                        

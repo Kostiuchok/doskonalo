@@ -24,7 +24,7 @@ Function Contact Formular
 					return;
 				}
 
-				$('#submit').prop('disabled', true);
+				$('#submit').addClass('is-disabled');
 				$('#message').slideUp(300);
 
 				fetch(DIRECTUS + '/items/contact_submissions', {
@@ -42,15 +42,15 @@ Function Contact Formular
 				})
 				.then(function() {
 					$('#contactform').slideUp('slow');
-					$('#message').html('<div id="success_page"><h3>Дякуємо!</h3><p>Ми зв\'яжемося з вами найближчим часом.</p></div>').slideDown('slow');
+					$('#message').html('<div id="success_page"><h3>Дякуємо!</h3><p style="color:#000;">Ми зв\'яжемося з вами найближчим часом.</p></div>').slideDown('slow');
 				})
 				.catch(function() {
-					$('#submit').prop('disabled', false);
+					$('#submit').removeClass('is-disabled');
 					$('#message').html('<div class="error_message">Сталася помилка. Будь ласка, зателефонуйте нам: <a href="tel:+380980320012">+380 (98) 032 0012</a></div>').slideDown('slow');
 				});
 			});
 
-			$('#submit-plain').off('click').on('click', function(e) {
+			$('#submit').off('click').on('click', function(e) {
 				e.preventDefault();
 				$('#contactform').trigger('submit');
 			});
