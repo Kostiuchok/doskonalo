@@ -49,6 +49,11 @@ Function Contact Formular
 					$('#message').html('<div class="error_message">Сталася помилка. Будь ласка, зателефонуйте нам: <a href="tel:+380980320012">+380 (98) 032 0012</a></div>').slideDown('slow');
 				});
 			});
+
+			$('#submit-plain').off('click').on('click', function(e) {
+				e.preventDefault();
+				$('#contactform').trigger('submit');
+			});
 		}
 
 
